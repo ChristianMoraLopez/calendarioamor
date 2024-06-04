@@ -1,4 +1,4 @@
-# Proyecto "Nombre del Proyecto"
+# Proyecto "Love Calendar"
 
 ## Descripción
 Este proyecto es una aplicación web desarrollada utilizando el framework Laravel. Se trata de una plataforma para gestionar eventos, donde los usuarios pueden crear, editar y eliminar eventos, así como ver una lista de todos los eventos disponibles.
@@ -27,7 +27,5 @@ Este proyecto es una aplicación web desarrollada utilizando el framework Larave
 Si deseas contribuir al proyecto, ¡estás más que bienvenido! Puedes hacer un fork del repositorio, realizar tus cambios y enviar una solicitud de extracción. Asegúrate de seguir las pautas de contribución y de realizar pruebas exhaustivas antes de enviar tus cambios.
 
 ## Autor
-Este proyecto fue desarrollado por [Nombre del Autor].
+Este proyecto fue desarrollado por Christian Mora.
 
-## Licencia
-Este proyecto está bajo la licencia [Licencia]. Puedes encontrar más detalles en el archivo LICENSE.
