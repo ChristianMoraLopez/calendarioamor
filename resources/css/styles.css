@@ -1,0 +1,177 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+/* Estilos generales */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilos del encabezado */
+
+.header {
+    background-color: #333;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    text-align: center;
+    align-items: center;
+}
+
+.header-title {
+    margin: 12px;
+    font-size: 24px;
+}
+
+.header-link {
+    color: #fff;
+    text-decoration: none;
+    width: fit-content;
+    padding: 5px 10px;
+    background-color: #007bff;
+    border-radius: 5px;
+    align-items: center;
+}
+
+/* Estilos de la lista de eventos */
+
+.event-list {
+    margin: 20px;
+}
+
+.event-list-ul {
+    list-style: none;
+    padding: 0;
+}
+
+.event-list-item {
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Estilos de los detalles del evento */
+
+.event-details {
+    flex-grow: 1;
+}
+
+.event-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.event-info {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Estilos de las acciones del evento */
+
+.event-actions {
+    display: flex;
+    align-items: center;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+/* Estilos del pie de página */
+
+.footer {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.footer-link {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+/* Esttilos de página create */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.heading {
+    text-align: center;
+}
+
+.event-form {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.form-heading {
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.link {
+    display: block;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    color: #007bff;
+}
