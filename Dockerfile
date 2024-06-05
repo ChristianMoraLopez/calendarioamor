@@ -1,10 +1,10 @@
-# Use the official PHP image as base
+# Usa la imagen oficial de PHP con Apache como base
 FROM php:8.2-apache
 
-# Set the working directory
+# Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# Install dependencies
+# Instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -13,17 +13,22 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    supervisor \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql
+    && docker-php-ext-install gd pdo pdo_mysql \
+    && a2enmod rewrite
 
-# Install Composer
+# Instala Node.js y npm
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
+    && apt-get install -y nodejs
+
+# Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copy project files
+# Copia los archivos del proyecto
 COPY . .
 
-
-# Set environment variables
+# Establece las variables de entorno
 ENV DB_CONNECTION=mysql
 ENV DB_HOST=calendario-amor.c5m8k2yea4i9.us-east-2.rds.amazonaws.com
 ENV DB_PORT=3306
@@ -31,14 +36,18 @@ ENV DB_DATABASE=calendario-amor
 ENV DB_USERNAME=admin
 ENV DB_PASSWORD=4682Oscuridad
 
-# Install PHP dependencies
-RUN composer install
+# Instala las dependencias de PHP y Node.js
+RUN composer install --no-interaction --optimize-autoloader --no-dev
+RUN npm install
 
-# Set permissions
+# Establece permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Expose port 9000 to the outside
-EXPOSE 9000
+# Copia el archivo de configuración de Supervisor
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Run PHP-FPM
-CMD ["php-fpm"]
+# Expone el puerto 80 para Apache
+EXPOSE 80
+
+# Comando de inicio para Supervisor
+CMD ["/usr/bin/supervisord"]
