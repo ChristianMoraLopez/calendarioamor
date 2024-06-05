@@ -42,12 +42,19 @@ RUN npm install
 
 # Establece permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
 # Copia el archivo de configuración de Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Expone el puerto 80 para Apache
-EXPOSE 80
+# Copia el archivo de entrada
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Expone el puerto 80 y 8000 para Apache y artisan
+EXPOSE 80 8000
 
 # Comando de inicio para Supervisor
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["/usr/bin/supervisord"]
