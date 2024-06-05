@@ -39,6 +39,8 @@ ENV DB_PASSWORD=4682Oscuridad
 # Instala las dependencias de PHP y Node.js
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN npm install
+run npm run prod
+
 
 # Establece permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
