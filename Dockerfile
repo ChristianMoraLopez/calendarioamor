@@ -22,6 +22,15 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy project files
 COPY . .
 
+
+# Set environment variables
+ENV DB_CONNECTION=mysql
+ENV DB_HOST=calendario-amor.c5m8k2yea4i9.us-east-2.rds.amazonaws.com
+ENV DB_PORT=3306
+ENV DB_DATABASE=calendario-amor
+ENV DB_USERNAME=admin
+ENV DB_PASSWORD=4682Oscuridad
+
 # Install PHP dependencies
 RUN composer install
 
