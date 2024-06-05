@@ -4,9 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\EventController;
+use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', function () {
-    return view('index');
+    return Redirect::to('/resources/views/index.blade.php');
 });
 
 Route::get('/dashboard', function () {
