@@ -55,6 +55,4 @@ RUN chmod +x /entrypoint.sh
 # Expone el puerto 80 y 8000 para Apache y artisan
 EXPOSE 80 8000
 
-# Comando de inicio para Supervisor
-ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/bin/supervisord"]
+
