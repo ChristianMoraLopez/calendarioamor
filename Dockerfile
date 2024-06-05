@@ -1,22 +1,15 @@
-# Usa la imagen oficial de PHP con Apache como base
-FROM php:8.2-apache
+# Usa la imagen oficial de PHP como base
+FROM php:8.2
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
 # Instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    zip \
-    unzip \
     git \
     curl \
-    supervisor \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql \
-    && a2enmod rewrite
+    unzip \
+    supervisor
 
 # Instala Node.js y npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
@@ -39,25 +32,19 @@ ENV DB_PASSWORD=4682Oscuridad
 # Instala las dependencias de PHP y Node.js
 RUN composer install --no-interaction --optimize-autoloader --no-dev
 RUN npm install
-run npm run prod
-
+RUN npm run prod
 
 # Establece permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html/public
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/public
 RUN chmod -R 755 /var/www/html
-RUN chown -R www-data:www-data /var/www/html
-RUN chown -R www-data:www-data /var/www/html/public
 
+# Ejecuta los comandos de Laravel
+RUN php artisan route:clear
+RUN php artisan config:clear
 
-# Copia el archivo de configuración de Supervisor
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+# Exponer el puerto 8000 para el servidor Artisan
+EXPOSE 8000
 
-
-# Expone el puerto 80
-EXPOSE 80
-
-run php artisan route:clear
-run php artisan config:clear
+# Ejecutar el servidor Artisan
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
