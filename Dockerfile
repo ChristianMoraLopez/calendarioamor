@@ -48,9 +48,6 @@ RUN chown -R www-data:www-data /var/www/html \
 # Copia el archivo de configuración de Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Copia el archivo de entrada
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
 # Expone el puerto 80
 EXPOSE 80
