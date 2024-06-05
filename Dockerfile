@@ -52,7 +52,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Expone el puerto 80 y 8000 para Apache y artisan
-EXPOSE 80 8000
-
+# Expone el puerto 80
+EXPOSE 80
 
