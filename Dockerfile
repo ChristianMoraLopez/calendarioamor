@@ -42,8 +42,13 @@ RUN npm install
 
 # Establece permisos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html/public
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/public
+RUN chmod -R 755 /var/www/html
+RUN chown -R www-data:www-data /var/www/html
+RUN chown -R www-data:www-data /var/www/html/public
+
 
 # Copia el archivo de configuración de Supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
