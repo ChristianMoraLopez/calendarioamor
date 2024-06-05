@@ -7,9 +7,8 @@ use App\Http\Controllers\EventController;
 use Illuminate\Support\Facades\Redirect;
 
 Route::get('/', function () {
-    return Redirect::to('/resources/views/index.blade.php');
+    return view('index');
 });
-
 Route::get('/dashboard', function () {
     $events = \App\Models\Event::where('user_id', auth()->id())->get();
     return view('dashboard', compact('events'));

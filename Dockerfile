@@ -57,3 +57,5 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Expone el puerto 80
 EXPOSE 80
 
+run php artisan route:clear
+run php artisan config:clear
