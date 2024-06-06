@@ -89,9 +89,6 @@ EXPOSE 8000
 # Imagen final
 FROM base AS final
 
-RUN docker container run -it --rm -v /var/www/html:/app -p 3000:8000 php bash
-RUN cd/app
-
 
 # Ejecutar el servidor Artisan
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
