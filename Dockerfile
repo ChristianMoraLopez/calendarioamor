@@ -42,7 +42,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Compilación de assets (si es necesario)
-# RUN php artisan view:cache && php artisan config:cache
+ RUN php artisan view:cache && php artisan config:cache
 
 # Exponer el puerto 80 para Apache
 EXPOSE 80
@@ -50,8 +50,7 @@ EXPOSE 80
 # Imagen final
 FROM base AS production
 
-# Copy over the .env file and generate the app key
-COPY .env .env
+
 RUN php artisan key:generate
 
 # Expose port 80
