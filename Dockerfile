@@ -29,7 +29,6 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath
 
-
 # Compilación de assets en una etapa separada
 FROM base AS build
 
@@ -49,9 +48,6 @@ RUN npm install
 # Copia el resto de la aplicación al contenedor
 COPY . .
 
-WORKDIR /app
-COPY . /app
-
 # Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
@@ -62,12 +58,9 @@ RUN chmod -R 777 /var/www/html/storage/framework/views
 RUN chmod -R 777 /var/www/html/storage/framework/sessions
 RUN chmod -R 777 /var/www/html/storage/framework/cache
 
-
 # Aplica los permisos específicos para Laravel
 RUN chmod -R 755 /var/www/html/storage
 RUN chmod -R o+w /var/www/html/storage
-
-
 
 # Crea el archivo de base de datos SQLite
 RUN touch /var/www/html/database/database.sqlite
@@ -78,22 +71,19 @@ RUN composer dump-autoload
 RUN php artisan migrate --force
 
 # Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
-RUN php artisan config:clear
-RUN php artisan route:clear
-RUN php artisan cache:clear
-RUN php artisan view:clear
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
-
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    php artisan cache:clear && \
+    php artisan view:clear && \
+    php artisan config:cache && \
+    php artisan route:cache && \
+    php artisan view:cache
 
 # Imagen final
 FROM base AS final
 
-
 # Ejecutar el servidor Artisan
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
-
 
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
