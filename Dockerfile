@@ -37,7 +37,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copia los archivos composer.json y package.json y ejecuta la instalación de dependencias antes de copiar el resto del proyecto para aprovechar la caché
 COPY composer.json composer.lock ./
 COPY package.json package-lock.json ./
-COPY artisan /var/www/html/artisan
+
 
 
 # Instala dependencias de Composer y Node.js
