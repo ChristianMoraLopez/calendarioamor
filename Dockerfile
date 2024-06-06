@@ -29,8 +29,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath
 
-# Compilación de assets y configuración inicial
-FROM base AS build
+
 
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -63,7 +62,8 @@ RUN chmod -R o+w /var/www/html/storage
 RUN touch /var/www/html/database/database.sqlite
 RUN chown -R www-data:www-data /var/www/html/database/database.sqlite
 
-
+# Compilación de assets y configuración inicial
+FROM base AS build
 
 # Ejecuta las migraciones para crear las tablas necesarias
 COPY --from=build /var/www/html /var/www/html
