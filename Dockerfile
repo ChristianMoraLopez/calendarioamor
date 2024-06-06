@@ -1,5 +1,5 @@
 # Imagen base con PHP y Composer
-FROM php:8.2-fpm AS base
+FROM php:8.2-fpm
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
