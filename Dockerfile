@@ -49,6 +49,9 @@ RUN npm install
 # Copia el resto de la aplicación al contenedor
 COPY . .
 
+WORKDIR /app
+COPY . /app
+
 # Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
@@ -83,8 +86,6 @@ RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
 
-# Exponer el puerto 8000 para el servidor Artisan
-EXPOSE 8000
 
 # Imagen final
 FROM base AS final
@@ -94,3 +95,5 @@ FROM base AS final
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
 
+# Exponer el puerto 8000 para el servidor Artisan
+EXPOSE 8000
