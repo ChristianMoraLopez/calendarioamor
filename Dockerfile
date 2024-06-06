@@ -1,5 +1,5 @@
-# Usa la imagen oficial de PHP como base
-FROM php:8.2
+# Usar una imagen base de PHP con Composer y Node.js instalado
+FROM php:8.2-fpm AS base
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
@@ -18,11 +18,8 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl
-
-#clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
+    curl \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instala Node.js y npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
@@ -35,41 +32,35 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Set working directory
-WORKDIR /var/www/html
+# Copia los archivos composer.json y package.json y ejecuta la instalación de dependencias antes de copiar el resto del proyecto para aprovechar la caché
+COPY composer.json composer.lock ./
+RUN composer install --no-scripts --no-autoloader
 
-# Remove the default index.php file
-RUN rm -rf /var/www/html/index.php
+COPY package.json package-lock.json ./
+RUN npm install
 
-# Copy existing application directory contents
-COPY --chown=www-data:www-data . /var/www/html
+# Compilación de assets en una etapa separada
+FROM base AS build
 
-# Copy index.blade.php to the views directory
-COPY --chown=www-data:www-data resources/views/index.blade.php /var/www/html/resources/views/
+# Copia el resto de la aplicación al contenedor
+COPY . .
 
-# Establece permisos
+# Ejecutar la compilación de assets
+RUN npm run build
+
+# Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 755 /var/www/html
 
-# Establece las variables de entorno
-ENV DB_CONNECTION=mysql
-ENV DB_HOST=calendario-amor.c5m8k2yea4i9.us-east-2.rds.amazonaws.com
-ENV DB_PORT=3306
-ENV DB_DATABASE=calendario-amor
-ENV DB_USERNAME=admin
-ENV DB_PASSWORD=4682Oscuridad
+# Imagen final
+FROM base AS final
 
-# Instala las dependencias de PHP y Node.js
-RUN composer install
-
-# Dependencias de Node.js
-RUN npm install
-RUN command -v npm
-RUN npm run dev
-
+# Copia los archivos compilados de la etapa de construcción
+COPY --from=build /var/www/html /var/www/html
 
 # Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
+RUN composer dump-autoload
 RUN php artisan config:clear
 RUN php artisan route:clear
 RUN php artisan cache:clear
