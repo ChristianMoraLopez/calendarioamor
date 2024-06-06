@@ -6,20 +6,48 @@ WORKDIR /var/www/html
 
 # Instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    libzip-dev \
+    libonig-dev \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
     unzip \
-    supervisor
+    git \
+    curl
+
+
+
+
+#clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
 
 # Instala Node.js y npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
     && apt-get install -y nodejs
 
+
+# Instala las extensiones de PHP necesarias
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copia los archivos del proyecto
-COPY . .
+
+#Set working directory
+WORKDIR /var/www/html
+
+#remove the default index.php file
+RUN rm -rf /var/www/html/index.php
+
+# Copy existing application directory contents
+COPY --chown=www-data:www-data . /var/www/html
+
 
 # Establece las variables de entorno
 ENV DB_CONNECTION=mysql
