@@ -63,9 +63,20 @@ ENV DB_PASSWORD=4682Oscuridad
 # Instala las dependencias de PHP y Node.js
 RUN composer install
 
-# Ejecuta los comandos de Laravel
-RUN php artisan route:clear
+# Dependencias de Node.js
+RUN npm install
+RUN command -v npm
+RUN npm run dev
+
+
+# Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
 RUN php artisan config:clear
+RUN php artisan route:clear
+RUN php artisan cache:clear
+RUN php artisan view:clear
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
