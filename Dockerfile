@@ -1,5 +1,5 @@
-# Imagen base con PHP
-FROM php:8.2-fpm AS base
+# Imagen base con PHP y Apache
+FROM php:8.2-apache AS base
 
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
@@ -19,6 +19,9 @@ RUN apt-get update && apt-get install -y \
     curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Habilita módulos de Apache necesarios
+RUN a2enmod rewrite
+
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -35,15 +38,14 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Compilación de assets
-RUN php artisan view:cache && php artisan config:cache
+# Compilación de assets (si es necesario)
+# RUN php artisan view:cache && php artisan config:cache
 
-# Exponer el puerto 8000 para el servidor Artisan
-EXPOSE 8000
+# Exponer el puerto 80 para Apache
+EXPOSE 80
 
 # Imagen final
 FROM base AS production
 
-# Ejecutar el servidor PHP-FPM
-CMD ["php-fpm"]
-
+# Ejecutar el servidor Apache
+CMD ["apache2-foreground"]
