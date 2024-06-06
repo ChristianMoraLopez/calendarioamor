@@ -23,10 +23,6 @@ RUN apt-get update && apt-get install -y \
 #clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Establece permisos
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 755 /var/www/html
 
 # Instala Node.js y npm
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
@@ -50,6 +46,11 @@ COPY --chown=www-data:www-data . /var/www/html
 
 # Copy index.blade.php to the views directory
 COPY --chown=www-data:www-data resources/views/index.blade.php /var/www/html/resources/views/
+
+# Establece permisos
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 755 /var/www/html
 
 # Establece las variables de entorno
 ENV DB_CONNECTION=mysql
