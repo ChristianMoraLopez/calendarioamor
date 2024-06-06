@@ -50,5 +50,13 @@ EXPOSE 80
 # Imagen final
 FROM base AS production
 
-# Ejecutar el servidor Apache
-CMD ["apache2-foreground"]
+# Copy over the .env file and generate the app key
+COPY .env .env
+RUN php artisan key:generate
+
+# Expose port 80
+EXPOSE 80
+
+# Adjusting Apache configurations
+RUN a2enmod rewrite
+COPY apache/apache-config.conf /etc/apache2/sites-available/000-default.conf
