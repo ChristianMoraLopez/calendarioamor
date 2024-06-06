@@ -29,6 +29,10 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath
 
+
+# Compilación de assets en una etapa separada
+FROM base AS build
+
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -56,6 +60,11 @@ Run chmod -R 777 /var/www/html/storage/framework/sessions
 Run chmod -R 777 /var/www/html/storage/framework/cache
 
 
+# Aplica los permisos específicos para Laravel
+RUN chmod -R 755 /var/www/html/storage
+RUN chmod -R o+w /var/www/html/storage
+
+
 # Compilación de assets
 RUN npm run build
 
@@ -78,6 +87,9 @@ RUN php artisan view:cache
 
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
+
+# Imagen final
+FROM base AS final
 
 # Ejecutar el servidor Artisan
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
