@@ -49,6 +49,12 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 755 /var/www/html
+run chmod -R 777 /var/www/html/storage/logs
+run chmod -R 755 /var/www/html/storage/framework
+Run chmod -R 777 /var/www/html/storage/framework/views
+Run chmod -R 777 /var/www/html/storage/framework/sessions
+Run chmod -R 777 /var/www/html/storage/framework/cache
+
 
 # Compilación de assets
 RUN npm run build
@@ -75,3 +81,5 @@ EXPOSE 8000
 
 # Ejecutar el servidor Artisan
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+
+
