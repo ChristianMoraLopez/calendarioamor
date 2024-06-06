@@ -62,8 +62,7 @@ RUN chmod -R o+w /var/www/html/storage
 RUN touch /var/www/html/database/database.sqlite
 RUN chown -R www-data:www-data /var/www/html/database/database.sqlite
 
-# Compilación de assets y configuración inicial
-FROM base AS build
+
 
 # Ejecuta las migraciones para crear las tablas necesarias
 COPY --from=build /var/www/html /var/www/html
