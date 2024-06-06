@@ -1,4 +1,4 @@
-# Usar una imagen base de PHP con Composer y Node.js instalado
+# Imagen base con PHP y Composer
 FROM php:8.2-fpm AS base
 
 # Establece el directorio de trabajo
@@ -34,9 +34,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Copia los archivos composer.json y package.json y ejecuta la instalación de dependencias antes de copiar el resto del proyecto para aprovechar la caché
 COPY composer.json composer.lock ./
+COPY package.json package-lock.json ./
+
+# Instala dependencias de Composer
 RUN composer install --no-scripts --no-autoloader
 
-COPY package.json package-lock.json ./
+# Instala dependencias de Node.js
 RUN npm install
 
 # Compilación de assets en una etapa separada
@@ -58,6 +61,10 @@ FROM base AS final
 
 # Copia los archivos compilados de la etapa de construcción
 COPY --from=build /var/www/html /var/www/html
+
+# Crea el archivo de base de datos SQLite
+RUN touch /var/www/html/database/database.sqlite
+RUN chown -R www-data:www-data /var/www/html/database/database.sqlite
 
 # Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
 RUN composer dump-autoload
