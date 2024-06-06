@@ -42,35 +42,26 @@ RUN composer install --no-scripts --no-autoloader
 # Instala dependencias de Node.js
 RUN npm install
 
-# Compilación de assets en una etapa separada
-FROM base AS build
-
 # Copia el resto de la aplicación al contenedor
 COPY . .
-
-# Ejecutar la compilación de assets
-RUN npm run build
 
 # Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod -R 755 /var/www/html
 
-# Imagen final
-FROM base AS final
-
-# Copia los archivos compilados de la etapa de construcción
-COPY --from=build /var/www/html /var/www/html
+# Compilación de assets
+RUN npm run build
 
 # Crea el archivo de base de datos SQLite
 RUN touch /var/www/html/database/database.sqlite
 RUN chown -R www-data:www-data /var/www/html/database/database.sqlite
 
 # Ejecuta las migraciones para crear las tablas necesarias
+RUN composer dump-autoload
 RUN php artisan migrate --force
 
 # Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
-RUN composer dump-autoload
 RUN php artisan config:clear
 RUN php artisan route:clear
 RUN php artisan cache:clear
