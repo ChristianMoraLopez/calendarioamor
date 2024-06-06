@@ -31,6 +31,7 @@ COPY composer.json composer.lock ./
 # Instala dependencias de Composer
 RUN composer self-update
 RUN composer clear-cache
+RUN composer fund
 RUN composer install --no-scripts --no-autoloader --no-dev
 
 # Copia el resto de la aplicación al contenedor
