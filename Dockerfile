@@ -66,6 +66,9 @@ COPY --from=build /var/www/html /var/www/html
 RUN touch /var/www/html/database/database.sqlite
 RUN chown -R www-data:www-data /var/www/html/database/database.sqlite
 
+# Ejecuta las migraciones para crear las tablas necesarias
+RUN php artisan migrate --force
+
 # Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
 RUN composer dump-autoload
 RUN php artisan config:clear
