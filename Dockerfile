@@ -48,11 +48,15 @@ RUN composer install --no-scripts --no-autoloader
 # Instala dependencias de Node.js
 RUN npm install
 
+
 # Copia el resto de la aplicación al contenedor
 COPY . .
 
 # Construye los activos de Vite
 RUN npm run build
+
+# En otra etapa, ejecuta el servidor de desarrollo
+FROM base AS dev
 
 # Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
