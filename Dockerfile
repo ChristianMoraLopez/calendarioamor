@@ -4,6 +4,12 @@ FROM php:8.2-fpm AS base
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
+# Copia el archivo Cors.php al directorio de middlewares
+COPY app/Http/Middleware/Cors.php app/Http/Middleware/Cors.php
+
+# Copia el archivo Kernel.php al directorio de HTTP
+COPY app/Http/Kernel.php app/Http/Kernel.php
+
 # Instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
     build-essential \
