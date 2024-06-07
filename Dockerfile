@@ -39,6 +39,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY composer.json composer.lock ./
 COPY package.json package-lock.json ./
 
+# Establecer variable de entorno para permitir que los plugins de Composer se ejecuten como root
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
 # Instala dependencias de Composer
 RUN composer install --no-scripts --no-autoloader
 
@@ -47,6 +50,9 @@ RUN npm install
 
 # Copia el resto de la aplicación al contenedor
 COPY . .
+
+# Construye los activos de Vite
+RUN npm run build
 
 # Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
@@ -82,14 +88,11 @@ RUN php artisan config:clear && \
 # Imagen final
 FROM base AS final
 
-# Copia los archivos compilados del build
+# Copia los archivos necesarios del build stage
 COPY --from=build /var/www/html /var/www/html
+
+# Ejecutar el servidor Artisan
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
-
-# Asegurarse de que el archivo .env esté presente
-COPY .env.example .env
-
-# Ejecutar el servidor Artisan
-CMD ["php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=8000"]
