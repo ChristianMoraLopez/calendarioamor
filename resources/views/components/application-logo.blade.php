@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="11.3288mm" height="11.5399mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+<svg xmlns="https://www.w3.org/2000/svg" xml:space="preserve" width="11.3288mm" height="11.5399mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
 viewBox="0 0 85 87"
- xmlns:xlink="http://www.w3.org/1999/xlink">
+ xmlns:xlink="https://www.w3.org/1999/xlink">
  <defs>
   <style type="text/css">
 

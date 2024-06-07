@@ -67,7 +67,8 @@ RUN chmod -R o+w /var/www/html/storage
 
 # Crea el archivo de base de datos SQLite
 RUN touch /var/www/html/database/database.sqlite
-RUN chown -R www-data:www-data /var/www/html/database/database.sqlite
+RUN chown www-data:www-data /var/www/html/database/database.sqlite
+
 
 # Ejecuta las migraciones para crear las tablas necesarias
 RUN composer dump-autoload
