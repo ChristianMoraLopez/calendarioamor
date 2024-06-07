@@ -8,6 +8,11 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/views/index.blade.php',
+        './resources/views/auth/**/*.blade.php',
+        './resources/views/auth/*.blade.php',
+
+        './resources/views/layouts/**/*.blade.php',
+
         './resources/js/**/*.vue',
         './resources/js/**/*.js',
         './resources/css/**/*.css',
