@@ -99,6 +99,9 @@ COPY --from=build /var/www/html /var/www/html
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
 
+# Asegurarse de que el archivo .env esté presente
+COPY .env.example .env
+
 
 # Ejecutar el servidor Artisan
 CMD ["php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=8000"]
