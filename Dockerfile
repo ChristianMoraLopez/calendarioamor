@@ -82,8 +82,10 @@ RUN php artisan config:clear && \
 # Imagen final
 FROM base AS final
 
-# Ejecutar el servidor Artisan
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
+
+
+# Ejecutar el servidor Artisan
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
