@@ -1,0 +1,3 @@
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "https://calendarevents2-7lj6g5yv.b4a.run"
+</IfModule>
