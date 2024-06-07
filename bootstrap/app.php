@@ -1,3 +1,4 @@
+
 <?php
 
 // This should be placed at the very beginning of your PHP script, before any output is sent to the browser
@@ -11,7 +12,7 @@ if (isset($_SERVER['HTTP_ORIGIN'])) {
 }
 
 // Access-Control headers are received during OPTIONS requests
-if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+if ($_SERVER['REQUEST_METHOD'] ?? '' == 'OPTIONS') {
 
     if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
