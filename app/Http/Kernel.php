@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \App\Http\Middleware\Cors::class,
+        \App\Http\Middleware\HandleCors::class,
         // otros middlewares...
     ];
 
@@ -31,7 +31,7 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\Cors::class,
+            \App\Http\Middleware\HandleCors::class, // También agregado aquí por si acaso
         ],
     ];
 
@@ -52,6 +52,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
         // otros middlewares...
     ];
 }
