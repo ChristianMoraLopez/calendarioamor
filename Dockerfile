@@ -55,8 +55,6 @@ COPY . .
 # Construye los activos de Vite
 RUN npm run build
 
-# En otra etapa, ejecuta el servidor de desarrollo
-FROM base AS dev
 
 # Configura permisos correctos
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
@@ -88,6 +86,9 @@ RUN php artisan config:clear && \
     php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache
+
+# En otra etapa, ejecuta el servidor de desarrollo
+FROM base AS dev
 
 # Imagen final
 FROM base AS final
