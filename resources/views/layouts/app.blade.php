@@ -11,10 +11,10 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <!-- Update the font URL to use HTTPS -->
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="{{ secure_asset('https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap') }}" rel="stylesheet" />
 
     <!-- Scripts -->
-    @vite(['https://example.com/resources/css/app.css', 'https://example.com/resources/js/app.js'])
+     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Update the Alpine.js CDN URL to use HTTPS -->
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
@@ -38,4 +38,3 @@
     </div>
 </body>
 </html>
-
