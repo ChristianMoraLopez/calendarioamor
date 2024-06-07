@@ -93,8 +93,6 @@ FROM base AS dev
 # Imagen final
 FROM base AS final
 
-# Construye los activos de Vite
-RUN npm run build
 
 # Copia los archivos necesarios del build stage
 COPY --from=build /var/www/html /var/www/html
