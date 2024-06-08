@@ -4,14 +4,10 @@ FROM php:8.2-fpm AS base
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
-# # Copia el archivo Cors.php al directorio de middlewares
-# COPY app/Http/Middleware/Cors.php app/Http/Middleware/Cors.php
-
-
-
-
-# Instala las dependencias necesarias
+# Actualiza la lista de paquetes e instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
+    curl \
+    gnupg \
     build-essential \
     libpng-dev \
     libjpeg62-turbo-dev \
@@ -24,12 +20,14 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Instala Node.js y npm
-RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - \
+# Añade el repositorio de NodeSource y instala Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
+
+# Verifica la instalación de Node.js
+RUN node -v && npm -v
 
 # Instala las extensiones de PHP necesarias
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -75,7 +73,6 @@ RUN chmod -R o+w /var/www/html/storage
 RUN touch /var/www/html/database/database.sqlite
 RUN chown www-data:www-data /var/www/html/database/database.sqlite
 
-
 # Ejecuta las migraciones para crear las tablas necesarias
 RUN composer dump-autoload
 RUN php artisan migrate --force
@@ -98,12 +95,8 @@ COPY --from=build /var/www/html /var/www/html
 # Exponer el puerto 8000 para el servidor Artisan
 EXPOSE 8000
 
-
 # Asegurarse de que el archivo .env esté presente
 COPY .env.example .env
-
-
-
 
 # Ejecutar el servidor Artisan
 CMD ["php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=8000"]
