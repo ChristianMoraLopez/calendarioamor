@@ -2,176 +2,117 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-
-/* Estilos generales */
-
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+    background-color: #080710;
 }
-
-/* Estilos del encabezado */
-
-.header {
-    background-color: #333;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    text-align: center;
-    align-items: center;
+.background {
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
 }
-
-.header-title {
-    margin: 12px;
-    font-size: 24px;
+.background .shape {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
 }
-
-.header-link {
-    color: #fff;
-    text-decoration: none;
-    width: fit-content;
-    padding: 5px 10px;
-    background-color: #007bff;
-    border-radius: 5px;
-    align-items: center;
+.shape:first-child {
+    background: linear-gradient(#1845ad, #23a2f6);
+    left: -80px;
+    top: -80px;
 }
-
-/* Estilos de la lista de eventos */
-
-.event-list {
-    margin: 20px;
+.shape:last-child {
+    background: linear-gradient(to right, #ff512f, #f09819);
+    right: -30px;
+    bottom: -80px;
 }
-
-.event-list-ul {
-    list-style: none;
-    padding: 0;
+form {
+    height: 520px;
+    width: 400px;
+    background-color: rgba(255, 255, 255, 0.13);
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: 50px 35px;
 }
-
-.event-list-item {
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Estilos de los detalles del evento */
-
-.event-details {
-    flex-grow: 1;
-}
-
-.event-title {
-    margin: 0;
-    font-size: 18px;
-}
-
-.event-info {
-    margin: 0;
-    font-size: 14px;
-    color: #666;
-}
-
-/* Estilos de las acciones del evento */
-
-.event-actions {
-    display: flex;
-    align-items: center;
-}
-
-.edit-btn,
-.delete-btn {
-    padding: 5px 10px;
-    text-decoration: none;
-    color: #fff;
-    background-color: #007bff;
+form * {
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
     border: none;
-    cursor: pointer;
-    margin-right: 10px;
-    border-radius: 5px;
 }
-
-.delete-btn {
-    background-color: #dc3545;
-}
-
-/* Estilos del pie de página */
-
-.footer {
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-.footer-link {
-    color: #fff;
-    text-decoration: none;
-}
-
-
-/* Esttilos de página create */
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.heading {
+form h3 {
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 42px;
     text-align: center;
 }
-
-.event-form {
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    padding: 20px;
-    margin-bottom: 20px;
-}
-
-.form-heading {
-    margin-bottom: 10px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
 label {
     display: block;
-    font-weight: bold;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
 }
-
-input[type="text"],
-textarea,
-input[type="date"],
-input[type="time"] {
+input {
+    display: block;
+    height: 50px;
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    margin-top: 5px;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
 }
-
-.btn {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
+::placeholder {
+    color: #e5e5e5;
+}
+button {
+    margin-top: 50px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
 }
-
-.link {
-    display: block;
-    margin-top: 20px;
+.social {
+    margin-top: 30px;
+    display: flex;
+}
+.social div {
+    background: red;
+    width: 150px;
+    border-radius: 3px;
+    padding: 5px 10px 10px 5px;
+    background-color: rgba(255, 255, 255, 0.27);
+    color: #eaf0fb;
     text-align: center;
-    text-decoration: none;
-    color: #007bff;
+}
+.social div:hover {
+    background-color: rgba(255, 255, 255, 0.47);
+}
+.social .fb {
+    margin-left: 25px;
+}
+.social i {
+    margin-right: 4px;
 }

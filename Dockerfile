@@ -20,18 +20,14 @@ RUN apt-get update && apt-get install -y \
     vim \
     unzip \
     git \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Añade el repositorio de NodeSource y instala Node.js
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
-    && apt-get install -y nodejs
+    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+    && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath
 
 # Verifica la instalación de Node.js
 RUN node -v && npm -v
-
-# Instala las extensiones de PHP necesarias
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo_mysql mbstring zip exif pcntl gd bcmath
 
 # Compilación de assets en una etapa separada
 FROM base AS build
@@ -47,11 +43,9 @@ RUN composer config --global process-timeout 2000 \
 COPY composer.json composer.lock ./
 COPY package.json package-lock.json ./
 
-# Instala dependencias de Composer
-RUN composer install --prefer-dist --no-progress --no-interaction --no-scripts --no-autoloader
-
-# Instala dependencias de Node.js y Tailwind CSS
-RUN npm install
+# Instala dependencias de Composer y Node.js
+RUN composer install --prefer-dist --no-progress --no-interaction --no-scripts --no-autoloader \
+    && npm install
 
 # Copia el resto de la aplicación al contenedor
 COPY . .
@@ -59,36 +53,32 @@ COPY . .
 # Compila los activos (incluyendo Tailwind CSS)
 RUN npm run build
 
-# Configura permisos correctos
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-RUN chmod -R 755 /var/www/html
-RUN chmod -R 777 /var/www/html/storage/logs
-RUN chmod -R 755 /var/www/html/storage/framework
-RUN chmod -R 777 /var/www/html/storage/framework/views
-RUN chmod -R 777 /var/www/html/storage/framework/sessions
-RUN chmod -R 777 /var/www/html/storage/framework/cache
-
-# Aplica los permisos específicos para Laravel
-RUN chmod -R 755 /var/www/html/storage
-RUN chmod -R o+w /var/www/html/storage
+# Configura permisos correctos y aplica permisos específicos para Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 755 /var/www/html \
+    && chmod -R 777 /var/www/html/storage/logs \
+    && chmod -R 755 /var/www/html/storage/framework \
+    && chmod -R 777 /var/www/html/storage/framework/views \
+    && chmod -R 777 /var/www/html/storage/framework/sessions \
+    && chmod -R 777 /var/www/html/storage/framework/cache \
+    && chmod -R 755 /var/www/html/storage \
+    && chmod -R o+w /var/www/html/storage
 
 # Crea el archivo de base de datos SQLite
-RUN touch /var/www/html/database/database.sqlite
-RUN chown www-data:www-data /var/www/html/database/database.sqlite
+RUN touch /var/www/html/database/database.sqlite \
+    && chown www-data:www-data /var/www/html/database/database.sqlite
 
-# Ejecuta las migraciones para crear las tablas necesarias
-RUN composer dump-autoload
-RUN php artisan migrate --force
-
-# Ejecuta los comandos de Laravel para limpiar la caché y verificar la instalación
-RUN php artisan config:clear && \
-    php artisan route:clear && \
-    php artisan cache:clear && \
-    php artisan view:clear && \
-    php artisan config:cache && \
-    php artisan route:cache && \
-    php artisan view:cache
+# Ejecuta las migraciones para crear las tablas necesarias y comandos de Laravel para limpiar la caché
+RUN composer dump-autoload \
+    && php artisan migrate --force \
+    && php artisan config:clear \
+    && php artisan route:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan config:cache \
+    && php artisan route:cache \
+    && php artisan view:cache
 
 # Imagen final
 FROM base AS final

@@ -12,9 +12,6 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
 
-        <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
-    <link rel="stylesheet" href="{{ secure_asset('css/styles.css') }}">
-    <script src="{{ secure_asset('https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js') }}" defer></script>
 
     </head>
     <body class="font-sans text-gray-900 antialiased">
