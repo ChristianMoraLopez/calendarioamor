@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eventos</title>
     <link rel="stylesheet" href="{{ secure_asset('css/styles.css') }}">
-    <link rel="shortcut icon" href="{{ asset('images/logo.svg') }}">
+    <link rel="shortcut icon" href="{{ secure_asset('images/logo.svg') }}">
 </head>
 
 <body>

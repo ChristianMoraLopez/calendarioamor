@@ -18,10 +18,10 @@
                             @forelse ($events as $event)
                                 <li class="flex justify-between items-center py-2">
                                     <div>
-                                        <a href="{{ route('events.show', $event->id) }}" class="font-semibold">{{ $event->title }}</a>
+                                        <a href="{{ secure_url(route('events.show', $event->id)) }}" class="font-semibold">{{ $event->title }}</a>
                                         <p class="text-sm text-gray-600">{{ $event->date }} a las {{ $event->time }}</p>
                                     </div>
-                                    <form action="{{ route('events.destroy', $event->id) }}" method="POST">
+                                    <form action="{{ secure_url(route('events.destroy', $event->id)) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:text-red-800 transition duration-200">Eliminar</button>
@@ -31,7 +31,7 @@
                                 <li>No hay eventos programados</li>
                             @endforelse
                         </ul>
-                        <a href="{{ route('events.create') }}" class="block mt-4 text-lg font-semibold text-blue-600 hover:text-blue-800 transition duration-200">Crear nuevo evento</a>
+                        <a href="{{ secure_url(route('events.create')) }}" class="block mt-4 text-lg font-semibold text-blue-600 hover:text-blue-800 transition duration-200">Crear nuevo evento</a>
                     </div>
                 </div>
             </div>
