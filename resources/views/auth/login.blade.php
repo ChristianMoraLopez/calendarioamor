@@ -1,14 +1,5 @@
 <x-guest-layout>
 
-    <script>
-        window.onload = function() {
-            document.body.classList.add('loaded');
-        }
-    </script>
-      <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
 
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />

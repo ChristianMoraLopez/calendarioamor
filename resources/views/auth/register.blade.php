@@ -1,13 +1,5 @@
 <x-guest-layout>
-<script>
-        window.onload = function() {
-            document.body.classList.add('loaded');
-        }
-    </script>
-    <div class="background">
-        <div class="shape"></div>
-        <div class="shape"></div>
-    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
         <div class="Logo">
