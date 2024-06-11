@@ -20,14 +20,17 @@
         }
         body {
             background-color: #080710;
+            font-family: 'Poppins', sans-serif;
         }
         .background {
-            width: 430px;
-            height: 520px;
+            width: 100%;
+            height: 100%;
             position: absolute;
-            transform: translate(-50%,-50%);
-            left: 50%;
-            top: 50%;
+            top: 0;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .background .shape {
             height: 200px;
@@ -46,64 +49,88 @@
             bottom: -80px;
         }
         form {
-            height: 520px;
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             background-color: rgba(255, 255, 255, 0.13);
-            position: absolute;
-            transform: translate(-50%,-50%);
-            top: 50%;
-            left: 50%;
+            padding: 40px 20px;
             border-radius: 10px;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-            padding: 50px 35px;
+            text-align: center;
         }
         form * {
-            font-family: 'Poppins', sans-serif;
             color: #ffffff;
             letter-spacing: 0.5px;
             outline: none;
             border: none;
         }
         form h3 {
-            font-size: 36px;
+            font-size: 24px;
             font-weight: 600;
-            line-height: 48px;
-            text-align: center;
-            margin-bottom: 40px;
+            line-height: 32px;
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin-top: 30px;
+            margin-top: 20px;
             font-size: 18px;
             font-weight: 600;
         }
-
-
-        #username:hover,
-        #password:hover {
+        a {
+            display: block;
+            margin-top: 10px;
+            font-size: 16px;
+            color: #ffffff;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.07);
+            padding: 10px 20px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        a:hover {
             background-color: rgba(255, 255, 255, 0.47);
         }
-
-
-        #username:hover,
-        #password:hover {
-            background-color: rgba(255, 255, 255, 0.13);
-            transform: translate(-50%,-50%);
-            top: 50%;
-            left: 50%;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
-            padding: 4px 4px;
+        .container {
+            position: relative;
+            z-index: 2;
         }
-        .social a .fa {
-            margin-right: 4px;
+        header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffffff;
         }
 
-
+        @media (min-width: 768px) {
+            .background {
+                width: 430px;
+                height: 520px;
+            }
+            form {
+                height: 520px;
+                width: 400px;
+                padding: 50px 35px;
+            }
+            form h3 {
+                font-size: 36px;
+                font-weight: 600;
+                line-height: 48px;
+                margin-bottom: 40px;
+            }
+            label {
+                font-size: 20px;
+                font-weight: 600;
+            }
+            a {
+                font-size: 18px;
+            }
+            header h1 {
+                font-size: 42px;
+                margin-bottom: 40px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -113,14 +140,14 @@
 </div>
 <div class="container">
     <header>
-        <h1 style="font-size: 42px; font-weight: 700; text-align: center; margin-bottom: 40px;">Bienvenido a la aplicación de eventos</h1>
+        <h1>Bienvenido a la aplicación de eventos</h1>
     </header>
     <main>
         <form>
             <h3>Bienvenido a la aplicación de eventos</h3>
-            <label for="username" style="font-size: 20px; font-weight: 600;">¿Todavía no tienes una cuenta?</label>
+            <label for="username">¿Todavía no tienes una cuenta?</label>
             <a href="{{ secure_url(route('register')) }}" id="username">Regístrate ahora</a>
-            <label for="password" style="font-size: 20px; font-weight: 600;">¿Ya tienes una cuenta?</label>
+            <label for="password">¿Ya tienes una cuenta?</label>
             <a href="{{ secure_url(route('login')) }}" id="password">Inicia sesión aquí</a>
         </form>
     </main>
