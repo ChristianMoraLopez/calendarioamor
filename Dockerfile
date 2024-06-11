@@ -4,6 +4,9 @@ FROM php:8.2-fpm AS base
 # Establece el directorio de trabajo
 WORKDIR /var/www/html
 
+# Exponer el puerto 8000 para el servidor Artisan
+EXPOSE 8000
+
 # Actualiza la lista de paquetes e instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
     curl \
@@ -85,9 +88,6 @@ FROM base AS final
 
 # Copia los archivos compilados del build
 COPY --from=build /var/www/html /var/www/html
-
-# Exponer el puerto 8000 para el servidor Artisan
-EXPOSE 8000
 
 # Asegurarse de que el archivo .env esté presente
 COPY .env.example .env
