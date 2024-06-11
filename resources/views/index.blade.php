@@ -107,7 +107,6 @@
     </style>
 </head>
 <body>
-
 <div class="background">
     <div class="shape"></div>
     <div class="shape"></div>
@@ -119,12 +118,10 @@
     <main>
         <form>
             <h3>Bienvenido a la aplicación de eventos</h3>
-
             <label for="username" style="font-size: 20px; font-weight: 600;">¿Todavía no tienes una cuenta?</label>
-            <a href="{{ route('register') }}" id="username">Regístrate ahora</a>
-
+            <a href="{{ secure_url(route('register')) }}" id="username">Regístrate ahora</a>
             <label for="password" style="font-size: 20px; font-weight: 600;">¿Ya tienes una cuenta?</label>
-            <a href="{{ route('login') }}" id="password">Inicia sesión aquí</a>
+            <a href="{{ secure_url(route('login')) }}" id="password">Inicia sesión aquí</a>
         </form>
     </main>
 </div>
