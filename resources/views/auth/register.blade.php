@@ -8,7 +8,7 @@
         <div class="shape"></div>
         <div class="shape"></div>
     </div>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ secure_url(route('register')) }}">
         @csrf
         <div class="Logo">
             <a href="/">
