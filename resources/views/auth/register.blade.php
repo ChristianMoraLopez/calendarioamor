@@ -1,77 +1,132 @@
 <x-guest-layout>
+<script>
+        window.onload = function() {
+            document.body.classList.add('loaded');
+        }
+    </script>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
     <form method="POST" action="{{ route('register') }}">
         @csrf
+        <div class="Logo">
+            <a href="/">
+                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+            </a>
+        </div>
 
         <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <div class="input-group">
+            <label for="name">Name</label>
+            <input id="name" class="input-field" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name" placeholder="Enter your name">
+            <x-input-error :messages="$errors->get('name')" class="input-error" />
         </div>
 
         <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="input-group mt-4">
+            <label for="email">Email</label>
+            <input id="email" class="input-field" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="Enter your email">
+            <x-input-error :messages="$errors->get('email')" class="input-error" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <div class="input-group mt-4">
+            <label for="password">Password</label>
+            <input id="password" class="input-field" type="password" name="password" required autocomplete="new-password" placeholder="Enter your password">
+            <x-input-error :messages="$errors->get('password')" class="input-error" />
         </div>
 
         <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <div class="input-group mt-4">
+            <label for="password_confirmation">Confirm Password</label>
+            <input id="password_confirmation" class="input-field" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Confirm your password">
+            <x-input-error :messages="$errors->get('password_confirmation')" class="input-error" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
+        <div class="flex items-center justify-between mt-4">
+            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150" href="{{ route('login') }}">
+                Already registered?
             </a>
 
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
+            <button type="submit" class="button">Register</button>
         </div>
     </form>
 
     <!-- Styles -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
         body {
             background-color: #080710;
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .Logo{
+            text-align-last: center;
+        }
+
+        .background {
+            width: 430px;
+            height: 520px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            top: 50%;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .background .shape {
+            height: 200px;
+            width: 200px;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .shape:first-child {
+            background: linear-gradient(#1845ad, #23a2f6);
+            left: -80px;
+            top: -80px;
+        }
+
+        .shape:last-child {
+            background: linear-gradient(to right, #ff512f, #f09819);
+            right: -30px;
+            bottom: -80px;
         }
 
         form {
             max-width: 400px;
-            margin: auto;
+            width: 100%;
             padding: 50px 35px;
-            background-color: rgba(255, 255, 255, 0.13);
+            background: rgba(255, 255, 255, 0.13);
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            left: 50%;
             border-radius: 10px;
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
             color: #ffffff;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 1;
         }
 
-        form * {
-            letter-spacing: 0.5px;
-            outline: none;
-            border: none;
+        .input-group {
+            margin-top: 20px;
         }
 
-        form h3 {
-            font-size: 32px;
-            font-weight: 500;
-            line-height: 42px;
-            text-align: center;
-            color: #ffffff;
+        .input-group:first-of-type {
+            margin-top: 0;
         }
 
         label {
@@ -79,43 +134,59 @@
             margin-top: 30px;
             font-size: 16px;
             font-weight: 500;
+            color: #ffffff;
         }
 
-        input {
-            display: block;
+        .input-field {
             width: 100%;
-            height: 50px;
-            background-color: rgba(255, 255, 255, 0.07);
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.07);
             border-radius: 3px;
-            padding: 0 10px;
-            margin-top: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e5e5e5;
             font-size: 14px;
             font-weight: 300;
-            color: #e5e5e5;
+            transition: background 0.3s, border-color 0.3s;
         }
 
-        ::placeholder {
-            color: #e5e5e5;
-        }
-
-        button {
-            width: 100%;
-            background-color: #ffffff;
-            color: #080710;
-            padding: 15px 0;
-            font-size: 18px;
-            font-weight: 600;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 50px;
-            border: none;
+        .input-field:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
             outline: none;
         }
 
+        .input-error {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #f44336;
+        }
 
+        .button {
+            width: 100%;
+            padding: 15px;
+            background-color: #ffffff;
+            color: #080710;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #e5e5e5;
+            transform: scale(1.05);
+        }
 
         .underline {
             color: #e5e5e5;
+            text-decoration: none;
+        }
+
+        .underline:hover {
+            color: #ffffff;
         }
 
         .flex {
@@ -124,130 +195,18 @@
             justify-content: space-between;
         }
 
-        .ml-4 {
-            margin-left: 1rem;
-        }
-
-        .mt-1 {
-            margin-top: 0.25rem;
-        }
-
-        .mt-2 {
-            margin-top: 0.5rem;
-        }
-
         .mt-4 {
             margin-top: 1rem;
         }
 
-        .block {
-            display: block;
+        body.loaded {
+            opacity: 1;
         }
 
-        .w-full {
-            width: 100%;
-        }
 
-        .text-gray-600 {
-            color: #718096;
-        }
 
-        .dark\:text-gray-400 {
-            color: #a0aec0;
-        }
 
-        .hover\:text-gray-900:hover {
-            color: #1a202c;
-        }
 
-        .dark\:hover\:text-gray-100:hover {
-            color: #f7fafc;
-        }
-
-        .rounded-md {
-            border-radius: 0.375rem;
-        }
-
-        .focus\:outline-none {
-            outline: 2px solid transparent;
-            outline-offset: 2px;
-        }
-
-        .focus\:ring-2 {
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-        .focus\:ring-offset-2 {
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .focus\:ring-indigo-500 {
-            box-shadow: 0 0 0 2px #667eea;
-        }
-
-        .dark\:focus\:ring-offset-gray-800 {
-            box-shadow: 0 0 0 2px #2d3748;
-        }
-
-        .bg-gray-100 {
-            background-color: #f7fafc;
-        }
-
-        .dark\:bg-gray-900 {
-            background-color: #1a202c;
-        }
-
-        .min-h-screen {
-            min-height: 100vh;
-        }
-
-        .bg-white {
-            background-color: #ffffff;
-        }
-
-        .dark\:bg-gray-800 {
-            background-color: #2d3748;
-        }
-
-        .shadow {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .max-w-7xl {
-            max-width: 80rem;
-        }
-
-        .mx-auto {
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .py-6 {
-            padding-top: 1.5rem;
-            padding-bottom: 1.5rem;
-        }
-
-        .px-4 {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .sm\:px-6 {
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
-        }
-
-        .lg\:px-8 {
-            padding-left: 2rem;
-            padding-right: 2rem;
-        }
-
-        .font-sans {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .antialiased {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
     </style>
+
 </x-guest-layout>
