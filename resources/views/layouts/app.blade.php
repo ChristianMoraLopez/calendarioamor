@@ -40,14 +40,18 @@
         </main>
     </div>
 
-    <footer>
-    <div class="donate-real">
-            <a href="https://biz.payulatam.com/B0f65017F0BD626" target="_blank">
-                <img src="https://ecommerce.payulatam.com/img-secure-2015/boton_pagar_mediano.png" alt="Botón de Donación Real">
-            </a>
-            <p>¡Haz una diferencia real con tu donación!</p>
+    <footer class="bg-gray-800 text-white py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+        <div class="donate-real mb-4">
+            <a href="https://biz.payulatam.com/B0f650147B1A412"><img src="https://ecommerce.payulatam.com/img-secure-2015/boton_pagar_grande.png"></a>
+            <p class="text-center mt-2">¡Haz una diferencia real con tu donación!</p>
         </div>
 
-    </footer>
-</body>
+        <!-- Opcional: Puedes agregar más contenido al footer aquí -->
+
+        <div class="social-links mt-4">
+            <!-- Agrega tus íconos de redes sociales aquí -->
+        </div>
+    </div>
+</footer>
 </html>
