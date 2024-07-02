@@ -69,19 +69,7 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
     && chmod -R o+w /var/www/html/storage
 
 # Crea el archivo de base de datos SQLite
-RUN touch /var/www/html/database/database.sqlite \
-    && chown www-data:www-data /var/www/html/database/database.sqlite
-
-# Ejecuta las migraciones para crear las tablas necesarias y comandos de Laravel para limpiar la caché
-RUN composer dump-autoload \
-    && php artisan migrate --force \
-    && php artisan config:clear \
-    && php artisan route:clear \
-    && php artisan cache:clear \
-    && php artisan view:clear \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
+RUN touch /var/www/html/database/database.sqlite
 
 # Imagen final
 FROM base AS final

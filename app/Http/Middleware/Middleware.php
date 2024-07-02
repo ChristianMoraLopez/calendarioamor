@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Foundation\Http\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as AuthFactory;
@@ -8,9 +8,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Routing\Redirector;
 use Illuminate\Routing\ResponseFactory;
 use Illuminate\Routing\UrlGenerator;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\Response;
+
 
 class Middleware
 {
