@@ -89,6 +89,7 @@ FROM base AS final
 # Copia los archivos compilados del build
 COPY --from=build /var/www/html /var/www/html
 
+
 # Asegurarse de que el archivo .env esté presente
 COPY .env.example .env
 
