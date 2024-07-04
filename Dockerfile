@@ -8,28 +8,31 @@ WORKDIR /var/www/html
 EXPOSE 8000
 
 # Actualiza la lista de paquetes e instala las dependencias necesarias
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    zlib1g-dev \  # Add this line to install zlib development headers\
-    curl \
-    gnupg \
-    build-essential \
-    libpng-dev \
-    libjpeg62-turbo-dev \
-    libfreetype6-dev \
-    locales \
-    libzip-dev \
-    libonig-dev \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    vim \
-    unzip \
-    git \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* \
+RUN apt-get update \
+    && apt-get install -y \
+        libpq-dev \
+        zlib1g-dev \  
+        curl \
+        gnupg \
+        build-essential \
+        libpng-dev \
+        libjpeg62-turbo-dev \
+        libfreetype6-dev \
+        locales \
+        libzip-dev \
+        libonig-dev \
+        zip \
+        jpegoptim optipng pngquant gifsicle \
+        vim \
+        unzip \
+        git \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* \
     && curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql pdo_pgsql mbstring zip exif pcntl gd bcmath
+
 # Verifica la instalación de Node.js
 RUN node -v && npm -v
 
