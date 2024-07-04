@@ -9,6 +9,9 @@ EXPOSE 8000
 
 # Actualiza la lista de paquetes e instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    # otros paquetes necesarios
+    && apt-get clean && rm -rf /var/lib/apt/lists/*\
     curl \
     gnupg \
     build-essential \
