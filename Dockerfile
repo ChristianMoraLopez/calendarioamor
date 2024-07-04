@@ -10,8 +10,7 @@ EXPOSE 8000
 # Actualiza la lista de paquetes e instala las dependencias necesarias
 RUN apt-get update && apt-get install -y \
     libpq-dev \
-    # otros paquetes necesarios
-    && apt-get clean && rm -rf /var/lib/apt/lists/*\
+    zlib1g-dev \  # Add this line to install zlib development headers\
     curl \
     gnupg \
     build-essential \
@@ -31,7 +30,6 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nodejs \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql pdo_pgsql mbstring zip exif pcntl gd bcmath
-
 # Verifica la instalación de Node.js
 RUN node -v && npm -v
 
