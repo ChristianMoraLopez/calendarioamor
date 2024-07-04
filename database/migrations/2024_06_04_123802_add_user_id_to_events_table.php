@@ -27,3 +27,4 @@ class AddUserIdToEventsTable extends Migration
         });
     }
 }
+
