@@ -33,6 +33,12 @@ RUN apt-get update \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install pdo_mysql pdo_pgsql mbstring zip exif pcntl gd bcmath
 
+# Verifica la instalación de Node.js
+RUN node -v && npm -v
+
+# Compilación de assets en una etapa separada
+FROM base AS build
+
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -40,20 +46,19 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN composer config --global process-timeout 2000 \
     && composer config --global allow-plugins.composer/package-versions-deprecated false
 
-# Establece la variable de entorno para permitir la ejecución de plugins como superusuario
-ENV COMPOSER_ALLOW_SUPERUSER=1
-
-# Etapa de construcción para instalar dependencias y preparar la aplicación
-FROM base AS build
-
-# Copia los archivos composer.json y composer.lock y ejecuta la instalación de dependencias antes de copiar el resto del proyecto para aprovechar la caché
+# Copia los archivos composer.json y package.json y ejecuta la instalación de dependencias antes de copiar el resto del proyecto para aprovechar la caché
 COPY composer.json composer.lock ./
+COPY package.json package-lock.json ./
 
-# Instala dependencias de Composer
-RUN composer install --prefer-dist --no-progress --no-interaction --no-scripts
+# Instala dependencias de Composer y Node.js
+RUN composer install --prefer-dist --no-progress --no-interaction --no-scripts --no-autoloader \
+    && npm install
 
 # Copia el resto de la aplicación al contenedor
 COPY . .
+
+# Compila los activos (incluyendo Tailwind CSS)
+RUN npm run build
 
 # Configura permisos correctos y aplica permisos específicos para Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
@@ -67,20 +72,12 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
     && chmod -R 755 /var/www/html/storage \
     && chmod -R o+w /var/www/html/storage
 
-# Imagen final
-FROM base AS final
-
-# Crea el directorio y el archivo de base de datos SQLite
-RUN mkdir -p /var/www/html/database \
-    && touch /var/www/html/database/database.sqlite \
+# Crea el archivo de base de datos SQLite
+RUN touch /var/www/html/database/database.sqlite \
     && chown www-data:www-data /var/www/html/database/database.sqlite
 
-# Copia los archivos compilados del build
-COPY --from=build /var/www/html /var/www/html
-
-# Genera la clave de la aplicación y limpia la configuración
+# Ejecuta las migraciones para crear las tablas necesarias y comandos de Laravel para limpiar la caché
 RUN composer dump-autoload \
-    && php artisan key:generate --force \
     && php artisan migrate --force \
     && php artisan config:clear \
     && php artisan route:clear \
@@ -90,14 +87,14 @@ RUN composer dump-autoload \
     && php artisan route:cache \
     && php artisan view:cache
 
-# Establecer el usuario no root
-RUN useradd -ms /bin/bash appuser \
-    && chown -R appuser:appuser /var/www/html
+# Imagen final
+FROM base AS final
 
-USER appuser
+# Copia los archivos compilados del build
+COPY --from=build /var/www/html /var/www/html
 
-# Asegúrate de que el archivo .env esté presente
+# Asegurarse de que el archivo .env esté presente
 COPY .env.example .env
 
-# Ejecutar el servidor de PHP
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+# Ejecutar el servidor Artisan
+CMD ["php", "/var/www/html/artisan", "serve", "--host=0.0.0.0", "--port=8000"]
